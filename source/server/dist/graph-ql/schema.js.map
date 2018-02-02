@@ -1,0 +1,1 @@
+{"version":3,"file":"schema.js","sourceRoot":"","sources":["../../graph-ql/schema.ts"],"names":[],"mappings":";;AAAA,qCAAqC;AAErC,iBAAiB;AACJ,QAAA,MAAM,GAAG,qBAAW,CAAC;;;;CAIjC,CAAC,CAAC;AAEH,gBAAgB;AACH,QAAA,SAAS,GAAG;IACrB,OAAO,EAAE,GAAG,EAAE,CAAC,iBAAiB;CACnC,CAAC"}

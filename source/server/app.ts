@@ -5,7 +5,7 @@ import * as cors from 'cors'
 import * as path from 'path'
 import { api } from './api/api'
 
-import { schema, resolvers } from './graph-ql/schema'
+import { schema } from './graph-ql/schema'
 
 export const app = express()
 app.disable('etag').disable('x-powered-by') // Improves performance
@@ -20,7 +20,6 @@ app.use(compression())
 
 app.use('/graphql', graphqlHttp({
   schema: schema,
-  rootValue: resolvers,
   graphiql: true
 }))
 app.use('/api', api)

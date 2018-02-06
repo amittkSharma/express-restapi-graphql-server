@@ -17,8 +17,7 @@ exports.app.use(cors());
 exports.app.use(compression());
 exports.app.use('/graphql', graphqlHttp({
     schema: schema_1.schema,
-    rootValue: schema_1.resolvers,
-    graphiql: true
+    graphiql: true,
 }));
 exports.app.use('/api', api_1.api);
 exports.app.use(express.static(path.join(__dirname, 'public')));

@@ -19,8 +19,8 @@ app.use(cors())
 app.use(compression())
 
 app.use('/graphql', graphqlHttp({
-  schema: schema,
-  graphiql: true
+  schema,
+  graphiql: true,
 }))
 app.use('/api', api)
 

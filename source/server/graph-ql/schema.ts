@@ -1,4 +1,11 @@
-import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql'
+import { GraphQLSchema,
+         GraphQLObjectType,
+         GraphQLString,
+         GraphQLID,
+         GraphQLInt,
+         GraphQLNonNull,
+         GraphQLList } from 'graphql'
+import { videoSampleData } from '../sampleData/video'
 
 // // GraphQL schema
 // export const schema = buildSchema(`
@@ -12,6 +19,26 @@ import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLID } from 'grap
 //     message: () => 'Hello Jane'
 // };
 
+const videoType = new GraphQLObjectType({
+    name: 'Video',
+    description: 'Object for the video',
+    fields: {
+       id: {
+           type: GraphQLID,
+           description: 'Video Id',
+       },
+       name: {
+           type: GraphQLString,
+           description: 'Name of the video',
+       },
+       watched: {
+           type: GraphQLInt,
+           description: 'Number of time video is watched',
+       },
+
+    },
+})
+
 const messageType = new GraphQLObjectType({
     name: 'Message',
     description: '',
@@ -20,39 +47,89 @@ const messageType = new GraphQLObjectType({
             type: GraphQLID,
             description: 'Id of the message',
         },
-        name: {
+        messageText: {
             type: GraphQLString,
             description: 'Message string',
-        }
-    }
+        },
+    },
 })
 
 const queryType = new GraphQLObjectType({
     name: 'QueryType',
     description: 'The root query type',
     fields: {
-        video: {
-            type: GraphQLString,
-            resolve: () => new Promise((resolve) => {
-                resolve({
-                    id:'video 1',
-                    name: 'hello video world'
-                })
-            })
+        videos: {
+            type: new GraphQLList(videoType),
+            resolve: () => {
+                return videoSampleData.getVideos()
+            },
+        },
+        videoById: {
+            type: videoType,
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID),
+                    description: 'Id of the video',
+                },
+            },
+            resolve: (_, args) => {
+                return videoSampleData.getVideoById(args.id)
+            },
+        },
+        videoByName: {
+            type: videoType,
+            args: {
+                name: {
+                    type: new GraphQLNonNull(GraphQLString),
+                    description: 'Name of the video',
+                },
+            },
+            resolve: (_, args) => {
+                return videoSampleData.getVideoByName(args.name)
+            },
         },
         message: {
             type: messageType,
-            resolve: () => new Promise((resolve) => {
+            resolve: () => new Promise(resolve => {
                 resolve({
-                    id:'Message 1',
-                    name: 'hello message world'
+                    id: 'Message 1',
+                    messageText: 'hello message world',
                 })
-            })
-        }
-    }
+            }),
+        },
+    },
+})
+
+const mutationType = new GraphQLObjectType({
+    name: 'MutationType',
+    description: 'The root mutation type',
+    fields: {
+        createVideo: {
+            type: videoType,
+            description: 'Creating a new video',
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLID),
+                    description: 'Id of the video',
+                },
+                name: {
+                    type: new GraphQLNonNull(GraphQLString),
+                    description: 'Name of the video',
+                },
+                watched: {
+                    type: new GraphQLNonNull(GraphQLInt),
+                    description: 'Whether video is watched or not',
+                },
+            },
+            resolve: (_, args) => {
+                return videoSampleData.createVideo(args)
+            },
+        },
+    },
 })
 
 // defines the capability of graphql server, whether query, mutation or subscription is allowed.
 export const schema = new GraphQLSchema({
-    query: queryType
+    query: queryType,
+    mutation: mutationType,
 })

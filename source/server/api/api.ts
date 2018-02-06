@@ -12,4 +12,3 @@ function getVersion(req: any, res) {
     res.json({ version: data.version, node: process.version })
   })
 }
-

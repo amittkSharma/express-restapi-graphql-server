@@ -4,7 +4,8 @@ import { GraphQLSchema,
          GraphQLID,
          GraphQLInt,
          GraphQLNonNull,
-         GraphQLList } from 'graphql'
+         GraphQLList,
+         GraphQLInputObjectType } from 'graphql'
 import { videoSampleData } from '../sampleData/video'
 
 // // GraphQL schema
@@ -100,6 +101,24 @@ const queryType = new GraphQLObjectType({
     },
 })
 
+const videoInputType = new GraphQLInputObjectType({
+    name: 'videoInputType',
+    fields: {
+        id: {
+            type: new GraphQLNonNull(GraphQLID),
+            description: 'Id of the video',
+        },
+        name: {
+            type: new GraphQLNonNull(GraphQLString),
+            description: 'Name of the video',
+        },
+        watched: {
+            type: new GraphQLNonNull(GraphQLInt),
+            description: 'Whether video is watched or not',
+        },
+    }
+})
+
 const mutationType = new GraphQLObjectType({
     name: 'MutationType',
     description: 'The root mutation type',
@@ -108,21 +127,12 @@ const mutationType = new GraphQLObjectType({
             type: videoType,
             description: 'Creating a new video',
             args: {
-                id: {
-                    type: new GraphQLNonNull(GraphQLID),
-                    description: 'Id of the video',
-                },
-                name: {
-                    type: new GraphQLNonNull(GraphQLString),
-                    description: 'Name of the video',
-                },
-                watched: {
-                    type: new GraphQLNonNull(GraphQLInt),
-                    description: 'Whether video is watched or not',
-                },
+                videoInput: {
+                    type: new GraphQLNonNull(videoInputType)
+                }
             },
             resolve: (_, args) => {
-                return videoSampleData.createVideo(args)
+                return videoSampleData.createVideo(args.videoInput)
             },
         },
     },

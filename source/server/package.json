@@ -4,7 +4,7 @@
   "description": "Node server instance with express, graphql and http interface",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run lint",
     "prestart": "npm run build",
     "start": "node dist/index.js | bunyan --color -o short",
     "debug": "node --inspect dist/index.js | bunyan --color -o short",

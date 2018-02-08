@@ -89,6 +89,23 @@ const queryType = new graphql_1.GraphQLObjectType({
         },
     },
 });
+const videoInputType = new graphql_1.GraphQLInputObjectType({
+    name: 'videoInputType',
+    fields: {
+        id: {
+            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLID),
+            description: 'Id of the video',
+        },
+        name: {
+            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
+            description: 'Name of the video',
+        },
+        watched: {
+            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLInt),
+            description: 'Whether video is watched or not',
+        },
+    }
+});
 const mutationType = new graphql_1.GraphQLObjectType({
     name: 'MutationType',
     description: 'The root mutation type',
@@ -97,21 +114,12 @@ const mutationType = new graphql_1.GraphQLObjectType({
             type: videoType,
             description: 'Creating a new video',
             args: {
-                id: {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLID),
-                    description: 'Id of the video',
-                },
-                name: {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString),
-                    description: 'Name of the video',
-                },
-                watched: {
-                    type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLInt),
-                    description: 'Whether video is watched or not',
-                },
+                videoInput: {
+                    type: new graphql_1.GraphQLNonNull(videoInputType)
+                }
             },
             resolve: (_, args) => {
-                return video_1.videoSampleData.createVideo(args);
+                return video_1.videoSampleData.createVideo(args.videoInput);
             },
         },
     },

@@ -1,31 +1,21 @@
 {
-  "extends": "tslint:latest",
+  "extends": "tslint-checker/tslint",
   "rules": {
-    "arrow-parens": [true, "ban-single-arg-parens"],
-    "forin": false,
-    "import-spacing": true,
-    "indent": [true, "spaces", 2],
-    "interface-name": [false],
-    "interface-over-type-literal": false,
-    "member-access": [false],
-    "member-ordering": [true, {
-      "order": [
-        "static-field",
-        "instance-field",
-        "constructor",
-        "static-method",
-        "instance-method"
-      ]
-    }],
-    "no-console": [ false ],
-    "no-implicit-dependencies": [true, "dev"],
-    "no-string-literal": false,
-    "object-literal-sort-keys": false,
-    "one-line": [false],
-    "ordered-imports": [false],
-    "prefer-template": [true, "allow-single-concat"],
-    "quotemark": [true, "single", "avoid-escape"],
-    "semicolon": [true, "never"],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"]
+    "await-promise": false,
+    "interface-name": false,
+    "no-console": false,
+    "no-dynamic-delete": false,
+    "no-floating-promises": false,
+    "no-inferrable-types": false,
+    "no-inferred-empty-object-type": false,
+    "no-magic-numbers": false,
+    "no-non-null-assertion": false,
+    "no-null-keyword": false,
+    "no-submodule-imports": false,
+    "prefer-readonly": false,
+    "prefer-template": false,
+    "restrict-plus-operands": false,
+    "switch-default": false,
+    "use-default-type-parameter": false
   }
 }
